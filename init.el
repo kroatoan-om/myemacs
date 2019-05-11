@@ -108,7 +108,7 @@
 (add-hook 'org-mode-hook (lambda() 'org-bullets-mode-1))
 
 ;; unset org C-c b for my use later
-(global-unset-key (kbd "C-c b"))
+;(global-unset-key (kbd "C-c b"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org babel for embedded code                                       ;;;;;;
