@@ -42,8 +42,11 @@
 ;;Magit
 (use-package magit
   :ensure t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Algunos basicos   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;Algunos basicos
+;;Qutar pantalla inicio
 (setq
  inhibit-startup-message t
  inhibit-startup-screen t
@@ -53,6 +56,14 @@
 ;;Visualizar numero de lineas
 (global-linum-mode)
 (setq column-number-mode t) ;; show columns in addition to rows in mode line
+
+;;Diccionario
+(setq-default ispell-program-name "aspell")
+(setq ispell-dictionary "castellano")
+;; flycheck para ortografia
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 ;;Señalar parentesis y llaves
 ;; (shown-paren-mode 1)
@@ -144,14 +155,24 @@
 ;; my standard latex options
 (add-to-list 'org-latex-classes
              '("asgarticle"
-               "\\documentclass{article}
+               "\\documentclass[a4paper,12pt,oneside]{article}
+\\usepackage[main=spanish,english]{babel}%paquete para el idioma del documento. Si
+%se quiere utilizar un parrafo con idioma diferente podemos utilizar
+%la orden \selectlanguage{}
 \\usepackage[utf8]{inputenx}
 \\usepackage[T1]{fontenc}
+\\usepackage{lmodern,pifont}
+\\usepackage{pdflscape}
+\\usepackage{caption}
+\\usepackage{textcomp}
 \\usepackage{graphicx}
+\\usepackage[dvipsnames]{color}
+\\usepackage{colortbl}
 \\usepackage{longtable}
 \\usepackage{hyperref}
+\\hypersetup{bookmarksopen,bookmarksnumbered,bookmarksopenlevel=4,%
+  linktocpage,colorlinks,urlcolor=black,citecolor=ForestGreen,linkcolor=black,filecolor=black}
 \\usepackage{natbib}
-\\usepackage{aas_macros}
 \\usepackage{amssymb}
 \\usepackage{amsmath}
 \\usepackage{geometry}
@@ -221,7 +242,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (org-edit-latex magit helm use-package))))
+ '(package-selected-packages
+   (quote
+    (flycheck-color-mode-line flycheck org-edit-latex magit helm use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
