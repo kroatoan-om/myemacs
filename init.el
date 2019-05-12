@@ -1,4 +1,3 @@
-;;Primera 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Packages                                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -47,7 +46,7 @@
 ;;Algunos basicos   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;Qutar pantalla inicio
+;;Quitar pantalla inicio
 (setq
  inhibit-startup-message t
  inhibit-startup-screen t
@@ -61,10 +60,14 @@
 ;;Diccionario
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "castellano")
+
 ;; flycheck para ortografia
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
+
+;;Auto fill para modo texto
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;;Señalar parentesis y llaves
 ;; (shown-paren-mode 1)
@@ -118,6 +121,7 @@
   :ensure t)
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda() 'org-bullets-mode-1))
+
 
 ;; unset org C-c b for my use later
 ; (global-unset-key (kbd "C-c b"))
@@ -191,6 +195,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; latex                                                                  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package reftex
   :ensure t
   :config
