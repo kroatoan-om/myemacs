@@ -57,18 +57,32 @@
 (global-linum-mode)
 (setq column-number-mode t) ;; show columns in addition to rows in mode line
 
-;;Diccionario
+;;Diccionario y corrector ortográfico              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;Primero configuramos el diccionario para español
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "castellano")
+;;Habilitar flyspell en modo texto
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+;;Keybidings
+(global-set-key (kbd "C-<f1>") 'ispell-buffer)
+(global-set-key (kbd "C-S-<f1>") 'ispell-check-previous-highlighted-word)
+(defun ispell-check-next-highlighted-word ()
+  "Custom function to spell check next highlighted word"
+  (interactive)
+  (ispell-goto-next-error)
+  (ispell-word)
+  )
+(global-set-key (kbd "C-S-<f2>") 'ispell-check-next-highlighted-word)
 
-;; flycheck para ortografia
+;; flycheck para ortografia de 
 (use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+  :ensure t)
+
 
 ;;Auto fill para modo texto
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
-
 ;;Señalar parentesis y llaves
 ;; (shown-paren-mode 1)
 ;; (setq show-paren-style 'expression)
