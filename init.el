@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-by hand, you could mess it up, so be careful.
-=======
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Packages                                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,6 +57,8 @@ by hand, you could mess it up, so be careful.
 (global-linum-mode)
 (setq column-number-mode t) ;; show columns in addition to rows in mode line
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Diccionario y corrector ortográfico              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;Primero configuramos el diccionario para español
@@ -68,8 +67,58 @@ by hand, you could mess it up, so be careful.
 ;;Habilitar flyspell en modo texto
     (dolist (hook '(text-mode-hook))
       (add-hook hook (lambda () (flyspell-mode 1))))
+
+;;configuracion para no incluir ciertos bloque en la corrección
+;;Block regex helper.
+(defun help/block-regex (special)
+  "Make an ispell skip-region alist for a SPECIAL block."
+  (interactive)
+  `(,(concat help/org-special-pre "BEGIN_" special)
+    .
+    ,(concat help/org-special-pre "END_" special)))
+
+;;Check SPECIAL LINE definitions, ignoring their type.
+
+(let ()
+  (--each
+      '(("ATTR_LATEX" nil)
+        ("AUTHOR" nil)
+        ("BLOG" nil)
+        ("CREATOR" nil)
+        ("DATE" nil)
+        ("DESCRIPTION" nil)
+        ("EMAIL" nil)
+        ("EXCLUDE_TAGS" nil)
+        ("HTML_CONTAINER" nil)
+        ("HTML_DOCTYPE" nil)
+        ("HTML_HEAD" nil)
+        ("HTML_HEAD_EXTRA" nil)
+        ("HTML_LINK_HOME" nil)
+        ("HTML_LINK_UP" nil)
+        ("HTML_MATHJAX" nil)
+        ("INFOJS_OPT" nil)
+        ("KEYWORDS" nil)
+        ("LANGUAGE" nil)
+        ("LATEX_CLASS" nil)
+        ("LATEX_CLASS_OPTIONS" nil)
+        ("LATEX_HEADER" nil)
+        ("LATEX_HEADER_EXTRA" nil)
+        ("NAME" t)
+        ("OPTIONS" t)
+        ("POSTID" nil)
+        ("RESULTS" t)
+        ("SELECT_TAGS" nil)
+        ("STARTUP" nil)
+        ("TITLE" nil))
+    (add-to-list
+     'ispell-skip-region-alist
+     (let ((special (concat "#[+]" (car it) ":")))
+       (if (cadr it)
+           (cons special "$")
+         (list special))))))
+
 ;;Keybidings
-(global-set-key (kbd "C-<f1>") 'ispell-buffer)
+(global-set-key (kbd "C-x <f1>") 'ispell-buffer)
 (global-set-key (kbd "C-S-<f1>") 'ispell-check-previous-highlighted-word)
 (defun ispell-check-next-highlighted-word ()
   "Custom function to spell check next highlighted word"
@@ -139,6 +188,19 @@ by hand, you could mess it up, so be careful.
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda() 'org-bullets-mode-1))
 
+;;deshabilitar correccion en comentarios
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+
+;;CONFIGURACION ISPELL PARA ORGMODE 
+(defun endless/org-ispell ()
+  "Configure `ispell-skip-region-alist' for `org-mode'."
+  (make-local-variable 'ispell-skip-region-alist)
+  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
+  (add-to-list 'ispell-skip-region-alist '("~" "~"))
+  (add-to-list 'ispell-skip-region-alist '("=" "="))
+  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
+(add-hook 'org-mode-hook #'endless/org-ispell)
 
 ;; unset org C-c b for my use later
 ; (global-unset-key (kbd "C-c b"))
@@ -154,10 +216,6 @@ by hand, you could mess it up, so be careful.
    (emacs-lisp . t)
    (latex . t)
    (shell . t)
-   (python . t)
-   (R . t)
-   (ditaa . t)
-   (perl . t)
    (gnuplot t)
    ))
 
@@ -195,8 +253,8 @@ by hand, you could mess it up, so be careful.
 \\hypersetup{bookmarksopen,bookmarksnumbered,bookmarksopenlevel=4,%
   linktocpage,colorlinks,urlcolor=black,citecolor=ForestGreen,linkcolor=black,filecolor=black}
 \\usepackage{natbib}
-\\usepackage{amssymb}
-\\usepackage{amsmath}
+%\\usepackage{amssymb}
+%\\usepackage{amsmath}
 \\usepackage{geometry}
 \\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}"
                ("\\section{%s}" . "\\section*{%s}")
@@ -205,6 +263,10 @@ by hand, you could mess it up, so be careful.
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
+;; Force new page after TOC
+(setq org-latex-toc-command "\\thispagestyle{empty} \\tableofcontents \\clearpage")
+
+;; org edit latex
 (use-package org-edit-latex
   :ensure t)
 (require 'org-edit-latex)
@@ -263,7 +325,6 @@ by hand, you could mess it up, so be careful.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
->>>>>>> fbbb0173a2c95cd52bda2660b0f4c998b1d9bd4d
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
@@ -273,5 +334,5 @@ by hand, you could mess it up, so be careful.
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
-;; If there is more than one, they won't work right.
-)
+ ;; If there is more than one, they won't work right.
+ )
