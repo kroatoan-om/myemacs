@@ -46,6 +46,9 @@
 ;;Algunos basicos   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; UTF-8 as default encoding
+(set-language-environment "UTF-8")
+
 ;;Quitar pantalla inicio
 (setq
  inhibit-startup-message t
