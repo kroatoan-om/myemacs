@@ -262,8 +262,8 @@
 \\usepackage{amssymb}
 \\usepackage{amsmath}
 \\usepackage{geometry}
-\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}"
-	       [NO-DEFAULT-PACKAGES]
+\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}
+	       [NO-DEFAULT-PACKAGES]"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -294,8 +294,8 @@
 \\usepackage{amssymb}
 \\usepackage{amsmath}
 \\usepackage{geometry}
-\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}"
-	       [NO-DEFAULT-PACKAGES]
+\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}
+	       [NO-DEFAULT-PACKAGES]"
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
