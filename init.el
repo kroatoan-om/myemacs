@@ -42,6 +42,9 @@
 ;;Magit
 (use-package magit
   :ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+(setq vc-handled-backends nil);;desactivar modo vc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Algunos basicos   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,84 +63,19 @@
 (global-linum-mode)
 (setq column-number-mode t) ;; show columns in addition to rows in mode line
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Diccionario y corrector ortográfico              ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;;Primero configuramos el diccionario para español
+;;Diccionario
 (setq-default ispell-program-name "aspell")
 (setq ispell-dictionary "castellano")
-;;Habilitar flyspell en modo texto
-    (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode 1))))
 
-;;configuracion para no incluir ciertos bloque en la corrección
-;;Block regex helper.
-(defun help/block-regex (special)
-  "Make an ispell skip-region alist for a SPECIAL block."
-  (interactive)
-  `(,(concat help/org-special-pre "BEGIN_" special)
-    .
-    ,(concat help/org-special-pre "END_" special)))
-
-;;Check SPECIAL LINE definitions, ignoring their type.
-
-(let ()
-  (--each
-      '(("ATTR_LATEX" nil)
-        ("AUTHOR" nil)
-        ("BLOG" nil)
-        ("CREATOR" nil)
-        ("DATE" nil)
-        ("DESCRIPTION" nil)
-        ("EMAIL" nil)
-        ("EXCLUDE_TAGS" nil)
-        ("HTML_CONTAINER" nil)
-        ("HTML_DOCTYPE" nil)
-        ("HTML_HEAD" nil)
-        ("HTML_HEAD_EXTRA" nil)
-        ("HTML_LINK_HOME" nil)
-        ("HTML_LINK_UP" nil)
-        ("HTML_MATHJAX" nil)
-        ("INFOJS_OPT" nil)
-        ("KEYWORDS" nil)
-        ("LANGUAGE" nil)
-        ("LATEX_CLASS" nil)
-        ("LATEX_CLASS_OPTIONS" nil)
-        ("LATEX_HEADER" nil)
-        ("LATEX_HEADER_EXTRA" nil)
-        ("NAME" t)
-        ("OPTIONS" t)
-        ("POSTID" nil)
-        ("RESULTS" t)
-        ("SELECT_TAGS" nil)
-        ("STARTUP" nil)
-        ("TITLE" nil))
-    (add-to-list
-     'ispell-skip-region-alist
-     (let ((special (concat "#[+]" (car it) ":")))
-       (if (cadr it)
-           (cons special "$")
-         (list special))))))
-
-;;Keybidings
-(global-set-key (kbd "C-x <f1>") 'ispell-buffer)
-(global-set-key (kbd "C-S-<f1>") 'ispell-check-previous-highlighted-word)
-(defun ispell-check-next-highlighted-word ()
-  "Custom function to spell check next highlighted word"
-  (interactive)
-  (ispell-goto-next-error)
-  (ispell-word)
-  )
-(global-set-key (kbd "C-S-<f2>") 'ispell-check-next-highlighted-word)
-
-;; flycheck para ortografia de 
+;;(add-hook 'flyspell-mode-hook 'flyspell-buffer)
+;;(add-hook 'text-mode-hook 'flyspell-mode)
+;; flycheck para ortografia
 (use-package flycheck
   :ensure t)
 
-
 ;;Auto fill para modo texto
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+
 ;;Señalar parentesis y llaves
 ;; (shown-paren-mode 1)
 ;; (setq show-paren-style 'expression)
@@ -157,16 +95,18 @@
       (setq initial-frame-alist
             '(
               (tool-bar-lines . 0)
-              (width . 105) ; chars
-              (height . 60) ; lines
-              (left . 0)
-              (top . 50)))
+              (width . 90) ; chars
+              (height . 40) ; lines
+              (background-color . "honeydew")
+              (left . 30)
+              (top . 30)))
       (setq default-frame-alist
             '(
               (tool-bar-lines . 0)
-              (width . 105)
-              (height . 60)
-              (left . 0)
+              (width . 90)
+              (height . 40)
+              (background-color . "honeydew")
+              (left . 50)
               (top . 50))))
   (progn
     (setq initial-frame-alist '( (tool-bar-lines . 0)))
@@ -191,19 +131,8 @@
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda() 'org-bullets-mode-1))
 
-;;deshabilitar correccion en comentarios
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(add-hook 'org-mode-hook 'turn-on-flyspell)
-
-;;CONFIGURACION ISPELL PARA ORGMODE 
-(defun endless/org-ispell ()
-  "Configure `ispell-skip-region-alist' for `org-mode'."
-  (make-local-variable 'ispell-skip-region-alist)
-  (add-to-list 'ispell-skip-region-alist '(org-property-drawer-re))
-  (add-to-list 'ispell-skip-region-alist '("~" "~"))
-  (add-to-list 'ispell-skip-region-alist '("=" "="))
-  (add-to-list 'ispell-skip-region-alist '("^#\\+BEGIN_SRC" . "^#\\+END_SRC")))
-(add-hook 'org-mode-hook #'endless/org-ispell)
+;; Redimensionar si hay atributo, si no dejar tamaño original
+(setq org-image-actual-width nil)
 
 ;; unset org C-c b for my use later
 ; (global-unset-key (kbd "C-c b"))
@@ -219,6 +148,10 @@
    (emacs-lisp . t)
    (latex . t)
    (shell . t)
+   (python . t)
+   (R . t)
+   (ditaa . t)
+   (perl . t)
    (gnuplot t)
    ))
 
@@ -252,6 +185,10 @@
 \\usepackage{caption}
 \\usepackage{textcomp}
 \\usepackage{graphicx}
+\\usepackage{grffile}
+\\usepackage{wrapfig}
+\\usepackage{capt-of}
+\\usepackage[normalem]{ulem} 
 \\usepackage[dvipsnames]{color}
 \\usepackage{colortbl}
 \\usepackage{longtable}
@@ -284,6 +221,10 @@
 \\usepackage{caption}
 \\usepackage{textcomp}
 \\usepackage{graphicx}
+\\usepackage{grffile}
+\\usepackage{wrapfig}
+\\usepackage{capt-of}
+\\usepackage[normalem]{ulem} 
 \\usepackage[dvipsnames]{color}
 \\usepackage{colortbl}
 \\usepackage{longtable}
@@ -295,7 +236,7 @@
 \\usepackage{amsmath}
 \\usepackage{geometry}
 \\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}
-	       [NO-DEFAULT-PACKAGES]"
+	       [NO-DEFAULT-PACKAGES]"	       	       
                ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -303,12 +244,6 @@
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-
-
-;; org edit latex
-(use-package org-edit-latex
-  :ensure t)
-(require 'org-edit-latex)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; latex                                                                  ;;
