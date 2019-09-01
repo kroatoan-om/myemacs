@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Packages                                                               ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -253,10 +253,52 @@
 \\hypersetup{bookmarksopen,bookmarksnumbered,bookmarksopenlevel=4,%
   linktocpage,colorlinks,urlcolor=black,citecolor=ForestGreen,linkcolor=black,filecolor=black}
 \\usepackage{natbib}
-%\\usepackage{amssymb}
-%\\usepackage{amsmath}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
 \\usepackage{geometry}
-\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}"
+\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}
+\\usepackage{grffile}
+\\usepackage{wrapfig}
+\\usepackage[normalem]{ulem}
+\\usepackage{capt-of}
+	       [NO-DEFAULT-PACKAGES]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+(add-to-list 'org-latex-classes
+             '("asgbook"
+               "\\documentclass[a4paper,12pt,oneside]{book}
+\\usepackage[main=spanish,english]{babel}%paquete para el idioma del documento. Si
+%se quiere utilizar un parrafo con idioma diferente podemos utilizar
+%la orden \selectlanguage{}
+\\usepackage[utf8]{inputenx}
+\\usepackage[T1]{fontenc}
+\\usepackage{lmodern,pifont}
+\\usepackage{pdflscape}
+\\usepackage{caption}
+\\usepackage{textcomp}
+\\usepackage{graphicx}
+\\usepackage[dvipsnames]{color}
+\\usepackage{colortbl}
+\\usepackage{longtable}
+\\usepackage{hyperref}
+\\hypersetup{bookmarksopen,bookmarksnumbered,bookmarksopenlevel=4,%
+  linktocpage,colorlinks,urlcolor=black,citecolor=ForestGreen,linkcolor=black,filecolor=black}
+\\usepackage{natbib}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{geometry}
+\\geometry{a4paper,left=2cm,top=2cm,right=2.5cm,bottom=2cm,marginparsep=7pt, marginparwidth=.6in}
+\\usepackage{grffile}
+\\usepackage{wrapfig}
+\\usepackage[normalem]{ulem}
+\\usepackage{capt-of}
+	       [NO-DEFAULT-PACKAGES]"
+               ("\\chapter{%s}" . "\\chapter*{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
